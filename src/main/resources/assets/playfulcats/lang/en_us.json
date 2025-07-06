@@ -1,0 +1,11 @@
+{
+  "itemGroup.playfulcats_toys": "PlayfulCats - Toys",
+
+  "playfulcats.configuration.title": "Playful Cats Configs",
+  "playfulcats.configuration.section.playfulcats.common.toml": "Playful Cats Configs",
+  "playfulcats.configuration.section.playfulcats.common.toml.title": "Playful Cats Configs",
+  "playfulcats.configuration.items": "Item List",
+  "playfulcats.configuration.logDirtBlock": "Log Dirt Block",
+  "playfulcats.configuration.magicNumberIntroduction": "Magic Number Text",
+  "playfulcats.configuration.magicNumber": "Magic Number"
+}
