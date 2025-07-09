@@ -11,7 +11,7 @@ public class PlayfulCats {
     public static final String MODID = "playfulcats";
 
     public PlayfulCats(IEventBus modEventBus, ModContainer modContainer) {
-        PlayfulCatRegistries.registerCreativeTabs(modEventBus);
+        PlayfulCatRegistries.registerRegistries(modEventBus);
         modContainer.registerConfig(ModConfig.Type.COMMON, Config.SPEC);
     }
 }

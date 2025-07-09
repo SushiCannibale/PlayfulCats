@@ -1,5 +1,6 @@
 {
-  "itemGroup.playfulcats_toys": "PlayfulCats - Toys",
+  "itemGroup.playfulcats.toys": "PlayfulCats - Toys",
+  "item.playfulcats.yarn_ball": "Yarn ball",
 
   "playfulcats.configuration.title": "Playful Cats Configs",
   "playfulcats.configuration.section.playfulcats.common.toml": "Playful Cats Configs",
