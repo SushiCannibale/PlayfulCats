@@ -35,7 +35,7 @@ public class ThrownYarnBallModel extends EntityModel<EntityRenderState>
 																				  0,
 																				  0)
 																		  .addBox(-3.0F,
-																				  -3.0F,
+																				  0.0F,
 																				  -3.0F,
 																				  6.0F,
 																				  6.0F,

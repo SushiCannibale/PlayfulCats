@@ -25,14 +25,17 @@ public class YarnBallItem extends Item implements ProjectileItem
 
 	private float getStrengthForTimeUsed(ItemStack stack, LivingEntity shooter, int timeLeft)
 	{
-		float duration = this.getUseDuration(stack, shooter) - timeLeft;
-		float scale = duration / this.getUseDuration(stack, shooter);
-		return scale * 2.5f;
+		float timeUsed = this.getUseDuration(stack, shooter) - timeLeft;
+		float strength = timeUsed / this.getUseDuration(stack, shooter);
+		return Math.min(strength, 1.0f) * 2.5f;
 	}
 
 	@Override
 	public boolean releaseUsing(ItemStack stack, Level level, LivingEntity shooter, int timeLeft)
 	{
+		if (this.getUseDuration(stack, shooter) - timeLeft < 5) {
+			return false;
+		}
 		if (level instanceof ServerLevel serverlevel)
 		{
 			float strength = this.getStrengthForTimeUsed(stack, shooter, timeLeft);
@@ -57,12 +60,12 @@ public class YarnBallItem extends Item implements ProjectileItem
 	@Override
 	public ItemUseAnimation getUseAnimation(ItemStack stack)
 	{
-		return ItemUseAnimation.BOW;
+		return ItemUseAnimation.SPEAR;
 	}
 
 	@Override
 	public @NotNull Projectile asProjectile(Level level, Position pos, ItemStack stack, Direction direction)
 	{
-		return new ThrownYarnBall(level, pos.x(), pos.y(), pos.z());
+		return new ThrownYarnBall(level, pos.x(), pos.y(), pos.z(), stack.copyWithCount(1));
 	}
 }
