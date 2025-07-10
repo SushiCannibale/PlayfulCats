@@ -66,6 +66,6 @@ public class YarnBallItem extends Item implements ProjectileItem
 	@Override
 	public @NotNull Projectile asProjectile(Level level, Position pos, ItemStack stack, Direction direction)
 	{
-		return new ThrownYarnBall(level, pos.x(), pos.y(), pos.z(), stack.copyWithCount(1));
+		return new ThrownYarnBall(level, pos.x(), pos.y(), pos.z());
 	}
 }
