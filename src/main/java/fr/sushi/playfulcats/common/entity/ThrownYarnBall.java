@@ -4,10 +4,12 @@ import fr.sushi.playfulcats.common.PlayfulCatRegistries;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.MoverType;
 import net.minecraft.world.entity.projectile.ThrowableProjectile;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.Vec3;
 
 public class ThrownYarnBall extends ThrowableProjectile
@@ -61,6 +63,18 @@ public class ThrownYarnBall extends ThrowableProjectile
 	}
 
 	@Override
+	protected void onHitEntity(EntityHitResult result)
+	{
+		// needs check
+		super.onHitEntity(result);
+		Vec3 motion = this.getDeltaMovement();
+		Vec3 entityMotion = result.getEntity().getDeltaMovement();
+		double deceleration = this.getEntityHitDeceleration(result);
+		motion.subtract(motion.scale(deceleration));
+		result.getEntity().move(MoverType.SELF, entityMotion.add(motion.reverse()));
+	}
+
+	@Override
 	protected boolean shouldBounceOnWorldBorder()
 	{
 		return true;
@@ -70,6 +84,13 @@ public class ThrownYarnBall extends ThrowableProjectile
 	protected double getDefaultGravity()
 	{
 		return 0.05;
+	}
+
+	private double getEntityHitDeceleration(EntityHitResult entityHitResult)
+	{
+		Vec3 entityMotion = entityHitResult.getEntity().getDeltaMovement();
+		Vec3 motion = this.getDeltaMovement();
+		return entityMotion.dot(motion);
 	}
 
 	private double getGroundMotionThreshold()
