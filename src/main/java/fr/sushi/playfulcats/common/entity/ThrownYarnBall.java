@@ -96,23 +96,23 @@ public class ThrownYarnBall extends Projectile
 		Vec3 movement = this.getDeltaMovement();
 		BlockPos blockpos = this.blockPosition();
 		BlockState blockstate = this.level().getBlockState(blockpos);
-		if (!blockstate.isAir())
-		{
-			VoxelShape voxelshape =
-					blockstate.getCollisionShape(this.level(), blockpos);
-			if (!voxelshape.isEmpty())
-			{
-				Vec3 vec31 = this.position();
-				for (AABB aabb : voxelshape.toAabbs())
-				{
-					if (aabb.move(blockpos).contains(vec31))
-					{
-						this.setInGround(true);
-						break;
-					}
-				}
-			}
-		}
+//		if (!blockstate.isAir())
+//		{
+//			VoxelShape voxelshape =
+//					blockstate.getCollisionShape(this.level(), blockpos);
+//			if (!voxelshape.isEmpty())
+//			{
+//				Vec3 vec31 = this.position();
+//				for (AABB aabb : voxelshape.toAabbs())
+//				{
+//					if (aabb.move(blockpos).contains(vec31))
+//					{
+//						this.setInGround(true);
+//						break;
+//					}
+//				}
+//			}
+//		}
 		if (this.isInWaterOrRain() || blockstate.is(Blocks.POWDER_SNOW) ||
 			this.isInFluidType(
 					(fluidType, height) -> this.canFluidExtinguish(fluidType)))
@@ -132,6 +132,7 @@ public class ThrownYarnBall extends Projectile
 					this.tickDespawn();
 				}
 			}
+
 			if (this.isAlive())
 			{
 				this.applyEffectsFromBlocks();
@@ -153,7 +154,7 @@ public class ThrownYarnBall extends Projectile
 			this.setXRot(lerpRotation(this.getXRot(), f1));
 			this.setYRot(lerpRotation(this.getYRot(), f));
 			BlockHitResult blockhitresult = this.level().clipIncludingBorder(
-					new ClipContext(movement, movement.add(pos),
+					new ClipContext(pos, pos.add(movement),
 									ClipContext.Block.COLLIDER,
 									ClipContext.Fluid.NONE, this));
 			this.stepMoveAndHit(blockhitresult);
