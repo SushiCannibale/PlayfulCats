@@ -2,9 +2,9 @@ package fr.sushi.playfulcats.common.entity;
 
 import fr.sushi.playfulcats.common.PlayfulCatRegistries;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.MoverType;
 import net.minecraft.world.entity.projectile.ThrowableProjectile;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
@@ -65,13 +65,13 @@ public class ThrownYarnBall extends ThrowableProjectile
 	@Override
 	protected void onHitEntity(EntityHitResult result)
 	{
-		// needs check
 		super.onHitEntity(result);
-		Vec3 motion = this.getDeltaMovement();
-		Vec3 entityMotion = result.getEntity().getDeltaMovement();
-		double deceleration = this.getEntityHitDeceleration(result);
-		motion.subtract(motion.scale(deceleration));
-		result.getEntity().move(MoverType.SELF, entityMotion.add(motion.reverse()));
+		Entity entity = result.getEntity();
+		float deceleration = this.getHitDeceleration(entity);
+		float knockback = this.getHitKnockback(entity);
+		entity.push(this.getDeltaMovement().scale(knockback));
+		this.setDeltaMovement(
+				this.getDeltaMovement().scale(deceleration).reverse());
 	}
 
 	@Override
@@ -86,15 +86,18 @@ public class ThrownYarnBall extends ThrowableProjectile
 		return 0.05;
 	}
 
-	private double getEntityHitDeceleration(EntityHitResult entityHitResult)
+	private float getHitDeceleration(Entity entity)
 	{
-		Vec3 entityMotion = entityHitResult.getEntity().getDeltaMovement();
-		Vec3 motion = this.getDeltaMovement();
-		return entityMotion.dot(motion);
+		return 0.5f;
 	}
 
-	private double getGroundMotionThreshold()
+	private float getHitKnockback(Entity entity)
 	{
-		return 0.01D;
+		return 0.9f;
+	}
+
+	private float getGroundMotionThreshold()
+	{
+		return 0.01f;
 	}
 }
