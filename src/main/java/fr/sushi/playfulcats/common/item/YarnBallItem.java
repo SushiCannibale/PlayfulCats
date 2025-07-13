@@ -33,15 +33,27 @@ public class YarnBallItem extends Item implements ProjectileItem
 	@Override
 	public boolean releaseUsing(ItemStack stack, Level level, LivingEntity shooter, int timeLeft)
 	{
-		if (this.getUseDuration(stack, shooter) - timeLeft < 5) {
+		if (this.getUseDuration(stack, shooter) - timeLeft < 5)
+		{
 			return false;
 		}
 		if (level instanceof ServerLevel serverlevel)
 		{
-			float strength = this.getStrengthForTimeUsed(stack, shooter, timeLeft);
-			ThrownYarnBall projectile = Projectile.spawnProjectileFromRotation(
-					ThrownYarnBall::new, serverlevel, stack, shooter, 0.0f, strength, 1.0f);
-		} return true;
+			float strength =
+					this.getStrengthForTimeUsed(stack, shooter, timeLeft);
+			ThrownYarnBall projectile =
+					Projectile.spawnProjectileFromRotation(ThrownYarnBall::new,
+														   serverlevel, stack,
+														   shooter, 0.0f,
+														   strength, 1.0f);
+			if (shooter instanceof Player playerShooter &&
+				playerShooter.hasInfiniteMaterials())
+			{
+				return true;
+			}
+			stack.split(1);
+		}
+		return true;
 	}
 
 	@Override
